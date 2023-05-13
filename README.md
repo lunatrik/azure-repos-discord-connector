@@ -38,6 +38,14 @@ Run the application with Docker Compose:
 docker-compose up
 ```
 
+### 5. Docker Swarm
+
+Run the application with Docker Swarm:
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+
 ## Files
 
 The main files in the application are:
