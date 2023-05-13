@@ -27,7 +27,13 @@ Discord_Webhook=your_discord_webhook
 BasicAuth__Username=your_username
 BasicAuth__Password=your_password
 ASPNETCORE_ENVIRONMENT=Production
-HOST=your_host
+HOST_API=your_host
+```
+
+### 5. Debug the Application
+Run ngrok and update the webhook url in Azure DevOps to the ngrock url.
+```
+ngrok http 7180
 ```
 
 ### 5. Docker Compose
@@ -69,7 +75,7 @@ The application uses the following environment variables:
 - `BasicAuth__Username`: The username for Basic Authentication.
 - `BasicAuth__Password`: The password for Basic Authentication.
 - `ASPNETCORE_ENVIRONMENT`: The environment the application is running in. Should be `Production` for a production environment.
-- `HOST`: The host that Traefik will use to expose your application.
+- `HOST_API`: The host that Traefik will use to expose your application.
 
 ## License
 

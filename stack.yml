@@ -7,9 +7,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - Discord_Webhook=${DISCORD_WEBHOOK}
-      - BasicAuth:Username=${BASICAUTH_USERNAME}
-      - BasicAuth:Password=${BASICAUTH_PASSWORD}
-
+      - BasicAuth__Username=${BASICAUTH_USERNAME}
+      - BasicAuth__Password=${BASICAUTH_PASSWORD}
     command: dotnet Lunatrik.ARDConnector.dll
     networks:
       - traefik-public
@@ -25,7 +24,7 @@ services:
         - traefik.docker.network=traefik-public
         - traefik.http.routers.ard-http.rule=Host(`${HOST_API?Variable not set}`)
         - traefik.http.routers.ard-http.entrypoints=http
-        - traefik.http.routers.ard-http.middlewares=websecure
+        - traefik.http.routers.ard-http.middlewares=https-redirect
         - traefik.http.routers.ard-https.rule=Host(`${HOST_API?Variable not set}`)
         - traefik.http.routers.ard-https.entrypoints=https
         - traefik.http.routers.ard-https.tls=true
