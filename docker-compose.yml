@@ -6,11 +6,11 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - Discord_Webhook=Discord_Webhook
-      - BasicAuth__Username=BasicAuth__Username
-      - BasicAuth__Password=BasicAuth__Password
-      - ASPNETCORE_ENVIRONMENT=Production
-    command: dotnet Lunatrik.ARDConnector.dll #/seed
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - Discord_Webhook=${DISCORD_WEBHOOK}
+      - BasicAuth:Username=${BASICAUTH_USERNAME}
+      - BasicAuth:Password=${BASICAUTH_PASSWORD}
+    command: dotnet Lunatrik.ARDConnector.dll
     networks:
       - net
       - traefik-public
@@ -24,18 +24,18 @@ services:
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
-        - traefik.http.routers.ippy.rule=Host(`arc.localhost`)
-        - traefik.http.routers.ippy.entrypoints=https
-        - traefik.http.routers.ippy.tls=true
-        - traefik.http.routers.ippy.tls.certresolver=le
-        - traefik.http.services.ippy.loadbalancer.server.port=80
-        - traefik.http.services.ippy.loadbalancer.passhostheader=true
-        - traefik.http.routers.ippy.middlewares=forwardedheaders
+        - traefik.http.routers.ard-connector.rule=Host(`${Traefik_Host}`)
+        - traefik.http.routers.ard-connector.entrypoints=https
+        - traefik.http.routers.ard-connector.tls=true
+        - traefik.http.routers.ard-connector.tls.certresolver=le
+        - traefik.http.services.ard-connector.loadbalancer.server.port=80
+        - traefik.http.services.ard-connector.loadbalancer.passhostheader=true
+        - traefik.http.routers.ard-connector.middlewares=forwardedheaders
         - "traefik.http.middlewares.forwardedheaders.ipwhitelist.sourceRange=0.0.0.0/0, ::/0"
-- 
-        - traefik.http.routers.ippy-http.rule=Host(`arc.localhost`)
-        - traefik.http.routers.ippy-http.entrypoints=http
-        - traefik.http.routers.ippy-http.middlewares=forwardedheaders
+
+        - traefik.http.routers.ard-connector-http.rule=Host(`${Traefik_Host}`)
+        - traefik.http.routers.ard-connector-http.entrypoints=http
+        - traefik.http.routers.ard-connector-http.middlewares=forwardedheaders
 
 networks:
   traefik-public:
