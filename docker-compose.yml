@@ -24,7 +24,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
-        - traefik.http.routers.ard-connector.rule=Host(`${Traefik_Host}`)
+        - traefik.http.routers.ard-connector.rule=Host(`${HOST}`)
         - traefik.http.routers.ard-connector.entrypoints=https
         - traefik.http.routers.ard-connector.tls=true
         - traefik.http.routers.ard-connector.tls.certresolver=le
@@ -33,7 +33,7 @@ services:
         - traefik.http.routers.ard-connector.middlewares=forwardedheaders
         - "traefik.http.middlewares.forwardedheaders.ipwhitelist.sourceRange=0.0.0.0/0, ::/0"
 
-        - traefik.http.routers.ard-connector-http.rule=Host(`${Traefik_Host}`)
+        - traefik.http.routers.ard-connector-http.rule=Host(`${HOST}`)
         - traefik.http.routers.ard-connector-http.entrypoints=http
         - traefik.http.routers.ard-connector-http.middlewares=forwardedheaders
 
