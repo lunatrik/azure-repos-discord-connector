@@ -5,10 +5,10 @@ docker node update --label-add traefik-public.traefik-public-certificates=true $
 
 source .env
 
-export HOST=localhost.com
-export ASPNETCORE_ENVIRONMENT=Production
-export DISCORD_WEBHOOK=your_discord_webhook
-export BASICAUTH_USERNAME=your_username
-export BASICAUTH_PASSWORD=your_password
+export HOST=$HOST
+export ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
+export DISCORD_WEBHOOK=$DISCORD_WEBHOOK
+export BASICAUTH_USERNAME=$BASICAUTH_USERNAME
+export BASICAUTH_PASSWORD=$BASICAUTH_PASSWORD
 
 docker stack deploy -c stack.yml ard_connector
