@@ -1,70 +1,68 @@
-# Azure DevOps to Discord Webhook Connector
+# Azure DevOps to Discord Connector
 
-This project is a webhook that intercepts push notifications from Azure DevOps and sends them to a specific Discord channel.
+## Overview
 
-## File Structure
+This is a .NET 6.0 application that listens for POST requests from Azure DevOps with information about pushes to a repository. It then formats the data into a Discord-friendly format and sends it to a Discord webhook. 
 
-This project contains the following files:
+## Setup
 
-1. `Program.cs`: The main file that starts the application, configures services, and defines the HTTP request pipeline.
+### 1. Clone the Repository
 
-2. `DiscordMessage.cs`: Defines the model for Discord messages.
+Clone this repository to your local machine.
 
-3. `BasicAuthenticationHandler.cs`: An authentication handler to secure the webhook.
+### 2. Configure Azure DevOps
 
-4. `appsettings.json`: Contains the application's configuration settings.
+Set up a service hook in Azure DevOps that sends a POST request to the endpoint `/code_pushed` on your server whenever a push event occurs in your desired repository.
 
-5. `AzureMessageToDiscordWebhook.cs`: An AutoMapper profile that maps Azure messages to Discord messages.
+### 3. Configure Discord
 
-6. `CodePushed.cs`: Contains the model definitions for Azure DevOps push notifications.
+Create a new webhook in the desired Discord channel. Copy the webhook URL.
 
-## How It Works
+### 4. Update .env file
 
-When Azure DevOps sends a push notification, the application receives that notification, maps it to a Discord message, and sends it to a specific Discord channel.
+Copy .env.local to new .env file and update the following variables:
 
-## Configuration
+```env
+Discord_Webhook=your_discord_webhook
+BasicAuth__Username=your_username
+BasicAuth__Password=your_password
+ASPNETCORE_ENVIRONMENT=Production
+Traefik_Host=your_host
+```
 
-### Discord
+### 5. Docker Compose
 
-1. Create a Discord server or choose an existing one to which you have the "Manage Webhooks" permission.
+Run the application with Docker Compose:
 
-2. Select a channel where notifications will be sent, click the gear icon to open channel settings.
+```bash
+docker-compose up
+```
 
-3. Go to the "Integrations" tab, click on "Webhooks", then "New Webhook".
+## Files
 
-4. Set up the webhook name, channel it will post to, and optionally upload an avatar.
+The main files in the application are:
 
-5. Copy the webhook URL, you will need to insert it in the `appsettings.json` file.
+- `Program.cs`: The main entry point for the application.
+- `DiscordMessage.cs`: Defines the structure of a message that can be sent to Discord.
+- `BasicAuthenticationHandler.cs`: A custom authentication handler for Basic Authentication.
+- `appsettings.json`: The application configuration file.
+- `AzureMessageToDiscordWebhook.cs`: Defines the mapping between the AzureMessage model and the DiscordMessage model.
+- `CodePushed.cs`: Defines the structure of the AzureMessage model.
 
-### Azure DevOps
+## Docker
 
-1. Go to the project settings in Azure DevOps.
+A `Dockerfile` is included for building a Docker image of the application. A `docker-compose.yml` file is also included for running the application with Docker Compose.
 
-2. Click on "Service Hooks" under "General".
+## Environment Variables
 
-3. Click on the "+" button to create a new subscription.
+The application uses the following environment variables:
 
-4. Choose "Web Hooks" as the service type and "Code pushed" as the trigger.
+- `Discord_Webhook`: The URL of your Discord webhook.
+- `BasicAuth__Username`: The username for Basic Authentication.
+- `BasicAuth__Password`: The password for Basic Authentication.
+- `ASPNETCORE_ENVIRONMENT`: The environment the application is running in. Should be `Production` for a production environment.
+- `Traefik_Host`: The host that Traefik will use to expose your application.
 
-5. Set up the filters as needed, insert the webhook URL that your application is running on.
+## License
 
-### Application
-
-1. `appsettings.json`: You will need to configure the following values in `appsettings.json`:
-
-   - `"Discord_Webhook": "YOUR_DISCORD_WEBHOOK"`: Replace `"YOUR_DISCORD_WEBHOOK"` with the webhook URL of your Discord channel.
-   - `"BasicAuth": {"Username": "username", "Password": "password"}`: Replace `"username"` and `"password"` with your credentials to secure your webhook.
-
-2. `BasicAuthenticationHandler.cs`: This file handles basic authentication. It compares the credentials received in the Authorization header with those in the configuration file.
-
-3. `Program.cs`: This file configures and starts the application. If necessary, you can add additional middleware or services here.
-
-4. `AzureMessageToDiscordWebhook.cs`: This file defines how to map an Azure message to a Discord message. If the format of the Azure message changes, you might need to update this file.
-
-## Usage
-
-Once you have configured Discord, Azure DevOps and the application, start it up and it will be ready to receive push notifications from Azure DevOps. When the application receives a notification, it converts the Azure message to a Discord message and sends it to the specified Discord channel.
-
-## Notes
-
-Ensure your Discord webhook and Azure DevOps webhook are secure. Never share your Discord webhook URL or your Azure DevOps webhook URL. If you think any of your webhooks may have been compromised, you can regenerate them from your respective channels.
+This project is licensed under the terms of the MIT license.
