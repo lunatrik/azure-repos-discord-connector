@@ -5,7 +5,7 @@ docker node update --label-add traefik-public.traefik-public-certificates=true $
 
 source .env
 
-export HOST=$HOST
+export HOST_API=$HOST_API
 export ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
 export DISCORD_WEBHOOK=$DISCORD_WEBHOOK
 export BASICAUTH_USERNAME=$BASICAUTH_USERNAME
