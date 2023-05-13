@@ -27,7 +27,7 @@ Discord_Webhook=your_discord_webhook
 BasicAuth__Username=your_username
 BasicAuth__Password=your_password
 ASPNETCORE_ENVIRONMENT=Production
-Traefik_Host=your_host
+HOST=your_host
 ```
 
 ### 5. Docker Compose
@@ -61,7 +61,7 @@ The application uses the following environment variables:
 - `BasicAuth__Username`: The username for Basic Authentication.
 - `BasicAuth__Password`: The password for Basic Authentication.
 - `ASPNETCORE_ENVIRONMENT`: The environment the application is running in. Should be `Production` for a production environment.
-- `Traefik_Host`: The host that Traefik will use to expose your application.
+- `HOST`: The host that Traefik will use to expose your application.
 
 ## License
 
