@@ -13,6 +13,7 @@ services:
       - Discord_Webhook=${DISCORD_WEBHOOK}
       - BasicAuth:Username=${BASICAUTH_USERNAME}
       - BasicAuth:Password=${BASICAUTH_PASSWORD}
+
     command: dotnet Lunatrik.ARDConnector.dll
     networks:
       - net
@@ -34,7 +35,6 @@ services:
         - traefik.http.services.ard-connector.loadbalancer.server.port=80
         - traefik.http.services.ard-connector.loadbalancer.passhostheader=true
         - traefik.http.routers.ard-connector.middlewares=forwardedheaders
-        - "traefik.http.middlewares.forwardedheaders.ipwhitelist.sourceRange=0.0.0.0/0, ::/0"
 
         - traefik.http.routers.ard-connector-http.rule=Host(${HOST})
         - traefik.http.routers.ard-connector-http.entrypoints=http
