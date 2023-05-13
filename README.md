@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a .NET 6.0 application that listens for POST requests from Azure DevOps with information about pushes to a repository. It then formats the data into a Discord-friendly format and sends it to a Discord webhook. 
+This is a .NET 7.0 application that listens for POST requests from Azure DevOps with information about pushes to a repository. It then formats the data into a Discord-friendly format and sends it to a Discord webhook. 
 
 ## Setup
 
