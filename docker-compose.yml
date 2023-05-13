@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+  ard-connector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - Discord_Webhook=Discord_Webhook
+      - BasicAuth__Username=BasicAuth__Username
+      - BasicAuth__Password=BasicAuth__Password
+      - ASPNETCORE_ENVIRONMENT=Production
+    command: dotnet Lunatrik.ARDConnector.dll #/seed
+    networks:
+      - net
+      - traefik-public
+ 
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.http.routers.ippy.rule=Host(`arc.localhost`)
+        - traefik.http.routers.ippy.entrypoints=https
+        - traefik.http.routers.ippy.tls=true
+        - traefik.http.routers.ippy.tls.certresolver=le
+        - traefik.http.services.ippy.loadbalancer.server.port=80
+        - traefik.http.services.ippy.loadbalancer.passhostheader=true
+        - traefik.http.routers.ippy.middlewares=forwardedheaders
+        - "traefik.http.middlewares.forwardedheaders.ipwhitelist.sourceRange=0.0.0.0/0, ::/0"
+- 
+        - traefik.http.routers.ippy-http.rule=Host(`arc.localhost`)
+        - traefik.http.routers.ippy-http.entrypoints=http
+        - traefik.http.routers.ippy-http.middlewares=forwardedheaders
+
+networks:
+  traefik-public:
+    external: true
+  net:
+    external: true
+     
+
+
