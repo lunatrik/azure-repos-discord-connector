@@ -1,6 +1,4 @@
-version: '3.4'
-
-
+version: '3.8'
 
 services:
   ard-connector:
@@ -14,7 +12,6 @@ services:
 
     command: dotnet Lunatrik.ARDConnector.dll
     networks:
-      - net
       - traefik-public
  
     deploy:
@@ -26,23 +23,15 @@ services:
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
-        - traefik.http.routers.ard-connector.rule=Host(${HOST_API})
-        - traefik.http.routers.ard-connector.entrypoints=https
-        - traefik.http.routers.ard-connector.tls=true
-        - traefik.http.routers.ard-connector.tls.certresolver=le
-        - traefik.http.services.ard-connector.loadbalancer.server.port=80
-        - traefik.http.services.ard-connector.loadbalancer.passhostheader=true
-        - traefik.http.routers.ard-connector.middlewares=forwardedheaders
-
-        - traefik.http.routers.ard-connector-http.rule=Host(${HOST_API})
-        - traefik.http.routers.ard-connector-http.entrypoints=http
-        - traefik.http.routers.ard-connector-http.middlewares=forwardedheaders
-
+        - traefik.http.routers.ard-http.rule=Host(`${HOST_API?Variable not set}`)
+        - traefik.http.routers.ard-http.entrypoints=http
+        - traefik.http.routers.ard-http.middlewares=websecure
+        - traefik.http.routers.ard-https.rule=Host(`${HOST_API?Variable not set}`)
+        - traefik.http.routers.ard-https.entrypoints=https
+        - traefik.http.routers.ard-https.tls=true
+        - traefik.http.routers.ard-https.tls.certresolver=le
+        - traefik.http.services.ard.loadbalancer.server.port=80
 networks:
   traefik-public:
     external: true
-  net:
-    external: true
-     
-
-
+      
