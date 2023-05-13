@@ -41,4 +41,6 @@ app.MapPost("/code_pushed", ([FromBody] AzureMessage payload, IMapper mapper, IC
     return;
 });
 
+
+
 app.Run();

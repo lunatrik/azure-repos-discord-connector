@@ -114,3 +114,4 @@ public partial class AzureMessage
     public ResourceContainers? resourceContainers { get; set; }
     public DateTime? createdDate { get; set; }
 }
+
